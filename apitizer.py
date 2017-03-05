@@ -13,9 +13,10 @@ def get_function(project, module, name):
 def main():
     # set up project & fake `plone.api`
     project = Project('.', fscommands=FileSystemCommands())
-    generate.create_package(project, 'plone')
-    pkg = generate.create_package(project, 'plone.api')
-    portal = generate.create_module(project, 'portal', pkg)
+    fakes = project.root.create_folder('.fakemodules')
+    pkg = generate.create_package(None, 'plone', sourcefolder=fakes)
+    pkg = generate.create_package(None, 'api', sourcefolder=pkg)
+    portal = generate.create_module(None, 'portal', sourcefolder=pkg)
 
     # replace `getToolByName`
     func = get_function(project, 'Products.CMFCore.utils', 'getToolByName')
