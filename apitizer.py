@@ -42,5 +42,9 @@ def main():
     do(move_func('Products.CMFCore.utils.getToolByName').get_changes(portal))
     do(rename_func('plone.api.portal.getToolByName').get_changes('get_tool'))
 
+    # replace `getSite`
+    do(move_func('zope.component.hooks.getSite').get_changes(portal))
+    do(rename_func('plone.api.portal.getSite').get_changes('get'))
+
     # clean up
     project.close()
