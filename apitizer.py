@@ -10,13 +10,24 @@ def get_function(project, module, name):
     return mod.resource, offset
 
 
+def get_child(resource, name):
+    if resource.has_child(name):
+        return resource.get_child(name)
+
+
+def create_module(project, name, package='plone.api', folder='.fakemodules'):
+    parent = get_child(project.root, folder) or project.root.create_folder(folder)
+    for pkg in package.split('.'):
+        parent = get_child(parent, pkg) or generate.create_package(
+            project=None, name=pkg, sourcefolder=parent)
+    return get_child(parent, name + '.py') or generate.create_module(
+        project=None, name=name, sourcefolder=parent)
+
+
 def main():
     # set up project & fake `plone.api`
     project = Project('.', fscommands=FileSystemCommands())
-    fakes = project.root.create_folder('.fakemodules')
-    pkg = generate.create_package(None, 'plone', sourcefolder=fakes)
-    pkg = generate.create_package(None, 'api', sourcefolder=pkg)
-    portal = generate.create_module(None, 'portal', sourcefolder=pkg)
+    portal = create_module(project, name='portal')
 
     # replace `getToolByName`
     func = get_function(project, 'Products.CMFCore.utils', 'getToolByName')
