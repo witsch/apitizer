@@ -18,12 +18,12 @@ def main():
 
     # replace `getToolByName`
     func = get_function(project, 'Products.CMFCore.utils', 'getToolByName')
+    signature = change_signature.ChangeSignature(project, *func)
+    project.do(signature.get_changes([change_signature.ArgumentRemover(0)]))
+    func = get_function(project, 'Products.CMFCore.utils', 'getToolByName')
     project.do(move.create_move(project, *func).get_changes(portal))
     func = get_function(project, 'plone.api.portal', 'getToolByName')
     project.do(rename.Rename(project, *func).get_changes('get_tool'))
-    func = get_function(project, 'plone.api.portal', 'get_tool')
-    signature = change_signature.ChangeSignature(project, *func)
-    project.do(signature.get_changes([change_signature.ArgumentRemover(0)]))
 
     # clean up
     project.close()
