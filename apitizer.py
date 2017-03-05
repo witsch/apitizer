@@ -1,4 +1,5 @@
 from rope.base.project import Project
+from rope.base.fscommands import FileSystemCommands
 from rope.contrib import generate
 from rope.refactor import rename, move, change_signature
 
@@ -11,7 +12,7 @@ def get_function(project, module, name):
 
 def main():
     # set up project & fake `plone.api`
-    project = Project('.')
+    project = Project('.', fscommands=FileSystemCommands())
     generate.create_package(project, 'plone')
     pkg = generate.create_package(project, 'plone.api')
     portal = generate.create_module(project, 'portal', pkg)
