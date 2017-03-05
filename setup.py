@@ -30,6 +30,7 @@ setup(name='apitizer',
     install_requires=[
         'setuptools',
         'rope',
+        'Products.CMFCore',
     ],
     entry_points={
         'console_scripts': [
