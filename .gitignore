@@ -1,0 +1,6 @@
+/*.egg-info/
+/.eggs/
+/bin/
+/include/
+/lib/
+/pip-selfcheck.json
